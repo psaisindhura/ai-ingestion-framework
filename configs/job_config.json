@@ -1,0 +1,14 @@
+{
+    "inputs":{
+        "source_path": "/data/input/",
+        "file_type": "csv"
+    },
+    "transformations":{
+        "filter_column": "status"
+    },
+    "output":{
+        "destination_path": "/data/output/",
+        "file_type": "parquet"
+
+    }
+}
