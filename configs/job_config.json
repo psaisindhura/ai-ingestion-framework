@@ -1,6 +1,6 @@
 {
     "inputs":{
-        "source_path": "/data/input/",
+        "source_path": "/opt/spark_programs/data/customers.csv",
         "file_type": "csv"
     },
     "transformations":{
