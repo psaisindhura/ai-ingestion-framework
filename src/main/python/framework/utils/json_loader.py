@@ -30,3 +30,9 @@ class JsonLoader:
     @property
     def output_file_type(self):
           return self.config_data.get("output", {}).get("file_type")
+    @property
+    def output_table_name(self):
+          return self.config_data.get("output", {}).get("table_name")
+    @property
+    def output_partition_columns(self):
+              return self.config_data.get("output", {}).get("partition_columns", [])
