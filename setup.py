@@ -9,7 +9,7 @@ packages = find_packages(where=SOURCE_DIR)
 
 setup(
     name="ai_ingestion_framework",
-    version="1.0.0",
+    version="2.0.0",
     description="AI-driven ingestion framework built on Spark",
     author="Your Name",
     package_dir={"": SOURCE_DIR},

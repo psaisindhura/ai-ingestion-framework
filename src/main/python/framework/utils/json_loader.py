@@ -8,10 +8,17 @@ class JsonLoader:
     
     def _load_json(self):
           """load json file and return dictionary object"""
-          if not os.path.exists(self.file_path):
+          try:
+
+             if not os.path.exists(self.file_path):
                 raise FileNotFoundError(f"JSON file not found: {self.file_path}")
-          with open(self.file_path, 'r') as json_file:
+             with open(self.file_path, 'r') as json_file:
                 data = json.load(json_file)
+          
+          except json.JSONDecodeError as e: 
+                  print(f"Error decoding JSON file: {e}")
+                  raise e
+                  
           return data
     
     @property
@@ -21,8 +28,41 @@ class JsonLoader:
     def input_file_type(self):
           return self.config_data.get("inputs", {}).get("file_type")
     @property
+    def input_delimitter(self):
+          return self.config_data.get("inputs", {}).get("delimitter", ",")
+    @property
+    def input_header(self):
+          return self.config_data.get("inputs", {}).get("header", True)
+    @property
+    def input_infer_schema(self):
+          return self.config_data.get("inputs", {}).get("infer_schema", True)
+    @property 
+    def input_multiLine(self):
+              return self.config_data.get("inputs", {}).get("multiLine", False)
+    @property
+    def input_mode(self):
+            return self.config_data.get("inputs", {}).get("mode", "PERMISSIVE")
+    @property
+    def input_qoute(self):
+            return self.config_data.get("inputs", {}).get("qoute", "\"")
+    @property
+    def input_escape(self):
+            return self.config_data.get("inputs", {}).get("escape", "\\")
+    @property
+    def input_ignoreLeadingWhiteSpace(self):
+            return self.config_data.get("inputs", {}).get("ignoreLeadingWhiteSpace", True)
+    @property
+    def input_ignoreTrailingWhiteSpace(self):
+            return self.config_data.get("inputs", {}).get("ignoreTrailingWhiteSpace", True)
+    @property
     def transform(self):
             return self.config_data.get("transformations", {}).get("filter_column")
+    @property
+    def is_flatten_json(self):
+            return self.config_data.get("transformations", {}).get("is_flatten_json", False)
+    @property
+    def add_date_partition(self):
+            return self.config_data.get("transformations", {}).get("add_date_partition", False)
     @property
     def destination_path(self):
           return self.config_data.get("output", {}).get("destination_path")
@@ -35,4 +75,7 @@ class JsonLoader:
           return self.config_data.get("output", {}).get("table_name")
     @property
     def output_partition_columns(self):
-              return self.config_data.get("output", {}).get("partition_columns", [])
+         return self.config_data.get("output", {}).get("partition_columns", [])
+    @property
+    def output_mode(self):
+        return self.config_data.get("output", {}).get("mode", "overwrite")

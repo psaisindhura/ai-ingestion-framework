@@ -1,14 +1,30 @@
 {
     "inputs":{
-        "source_path": "/opt/spark_programs/data/customers.csv",
-        "file_type": "csv"
+        "source_path": "/opt/spark_programs/data/customer.json",
+        "file_type": "json",
+        "delimiter": ",",
+        "header": true,
+        "infer_schema": true,
+        "multiLine": true,
+        "qoute": "\"",
+        "escape": "\\",
+        "ignoreLeadingWhiteSpace": true,
+        "ignoreTrailingWhiteSpace": true,
+        "mode": "PERMISSIVE"
+
     },
     "transformations":{
-        "filter_column": "status"
+        "filter_column": "status",
+        "add_date_partition": true,
+        "is_flatten_json": true
     },
     "output":{
-        "destination_path": "/data/output/",
-        "file_type": "parquet"
+        "destination_path": "/opt/spark_programs/data/output/",
+        "file_type": "parquet",
+        "table_name": "customers",
+        "mode": "overwrite",
+        "partition_columns": ["year", "month","day"]
+
 
     }
 }
