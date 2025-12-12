@@ -1,0 +1,11 @@
+spark:
+  appName: ai-ingestion-framework
+  master: local[*]
+  shufflePartitions: 200
+  dynamicAllocation: true
+  broadcastTimeout: 600
+
+
+
+config:
+  json_path: "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"

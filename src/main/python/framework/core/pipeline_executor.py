@@ -3,6 +3,12 @@ from framework.utils.json_loader import JsonLoader
 from pyspark.sql import SparkSession
 from framework.readers.json_reader import read_json_and_flatten
 from framework.writers.file_write import write_file
+from configs.config_loader import load_config
+
+def get_spark_config():
+    config = load_config()
+    spark_config =  config["spark"]
+    return spark_config
 
 spark = SparkSession.builder \
     .appName("CSVReader") \
