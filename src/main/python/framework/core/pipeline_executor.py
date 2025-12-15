@@ -3,12 +3,10 @@ from framework.utils.json_loader import JsonLoader
 from pyspark.sql import SparkSession
 from framework.readers.json_reader import read_json_and_flatten
 from framework.writers.file_write import write_file
-from configs.config_loader import load_config
-
-def get_spark_config():
-    config = load_config()
-    spark_config =  config["spark"]
-    return spark_config
+from configs.global_config  import json_path 
+from framework.scd.scd2_processor import apply_scd2
+from framework.utils.hash_utils import generate_hash_column
+from framework.readers.parquet_read import read_parquet
 
 spark = SparkSession.builder \
     .appName("CSVReader") \
@@ -16,13 +14,45 @@ spark = SparkSession.builder \
 
 def get_config():
     try:
-        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
+        config_path = json_path
         loader = JsonLoader(config_path)
         print(loader.source_path)
     except FileNotFoundError as e:
         print("Configuration file not found:", e)
         raise e
     return loader
+
+def scd2_processing():
+    """
+    Applies SCD Type 2 processing to the DataFrame.
+    """
+    try:
+        config = get_config()   
+        business_key = config.business_key
+        df_scd2 = process_scd2(spark, business_key)
+    except Exception as e:
+        print("Error during SCD Type 2 processing:", e)
+        raise e
+    return df_scd2
+def process_scd2(spark):
+     try:
+        config = get_config()   
+        business_key = config.business_key
+        source_df = read_parquet(spark, config.scd2_source_path)
+        target_df = read_parquet(spark, config.scd2_target_path)
+        business_key = config.business_key
+        tracked_columns = config.scd2_tracked_columns
+
+        source_hashed = generate_hash_column(source_df, tracked_columns)
+        target_hashed = generate_hash_column(target_df, tracked_columns)
+
+        final_df = apply_scd2(source_hashed, target_hashed, business_key = business_key, tracked_columns = tracked_columns)
+
+        final_df.write.mode("overwrite").parquet(config.scd2_target_path)
+        
+     except Exception as e:
+        print("Error during SCD Type 2 processing:", e)
+        raise e
 
 if __name__ == "__main__":
     

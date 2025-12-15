@@ -55,6 +55,9 @@ class JsonLoader:
     def input_ignoreTrailingWhiteSpace(self):
             return self.config_data.get("inputs", {}).get("ignoreTrailingWhiteSpace", True)
     @property
+    def business_key(self):
+            return self.config_data.get("inputs", {}).get("business_key", [])
+    @property
     def transform(self):
             return self.config_data.get("transformations", {}).get("filter_column")
     @property
@@ -79,3 +82,12 @@ class JsonLoader:
     @property
     def output_mode(self):
         return self.config_data.get("output", {}).get("mode", "overwrite")
+    @property
+    def scd2_source_path(self):
+        return self.config_data.get("scd2_settings", {}).get("source_path")
+    @property
+    def scd2_target_path(self):
+        return self.config_data.get("scd2_settings", {}).get("target_path")
+    @property
+    def scd2_tracked_columns(self):
+        return self.config_data.get("scd2_settings", {}).get("tracked_columns", [])

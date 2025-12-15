@@ -10,8 +10,13 @@
         "escape": "\\",
         "ignoreLeadingWhiteSpace": true,
         "ignoreTrailingWhiteSpace": true,
-        "mode": "PERMISSIVE"
-
+        "mode": "PERMISSIVE",
+        "source_from": "local",
+        "source_format": "file",
+        "business_key": ["customer_id" ],
+        "scd2_source_path": "/opt/spark_programs/data/source/customer_parquet",
+        "scd2_target_path": "/opt/spark_programs/data/target/customer_parquet",
+        "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ]
     },
     "transformations":{
         "filter_column": "status",
@@ -23,8 +28,7 @@
         "file_type": "parquet",
         "table_name": "customers",
         "mode": "overwrite",
-        "partition_columns": ["year", "month","day"]
-
+        "partition_columns": ["year", "month","day"]        
 
     }
 }

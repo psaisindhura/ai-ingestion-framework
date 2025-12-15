@@ -1,8 +1,9 @@
 from framework.utils.json_loader import JsonLoader
 from pyspark.sql.utils import AnalysisException
+from configs.global_config  import json_path 
 
 def get_config():
-    config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
+    config_path = json_path
     loader = JsonLoader(config_path)
     print(loader.source_path)
     return loader
