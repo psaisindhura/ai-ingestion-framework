@@ -34,10 +34,12 @@
     "kafka":{
         "bootstrap_servers": "localhost:9092",
         "topic_name": "customer_topic",
-        "checkpoint_location": "/opt/spark_programs/data/checkpoints/customer_kafka_checkpoint"
+        "checkpoint_location": "/opt/spark_programs/data/checkpoints/customer_kafka_checkpoint",
+        "kafka_starting_offsets": "earliest",
+        "consumer_group_id": "customer_consumer_group",
+        "starting_offsets": "earliest"
     },
     "avro":{
         "schema_path": "/opt/spark_programs/schemas/customer.avsc"
     }
-
 }

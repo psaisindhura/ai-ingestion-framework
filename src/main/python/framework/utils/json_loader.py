@@ -103,3 +103,9 @@ class JsonLoader:
     @property
     def avro_schema_path(self):
         return self.config_data.get("avro", {}).get("schema_path")
+    @property
+    def kafka_starting_offsets(self):
+        return self.config_data.get("kafka", {}).get("kafka_starting_offsets")
+    @property
+    def kafka_consumer_group_id(self):
+        return self.config_data.get("kafka", {}).get("consumer_group_id")
