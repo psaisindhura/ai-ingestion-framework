@@ -21,19 +21,7 @@ def get_config():
         print("Configuration file not found:", e)
         raise e
     return loader
-
-def scd2_processing():
-    """
-    Applies SCD Type 2 processing to the DataFrame.
-    """
-    try:
-        config = get_config()   
-        business_key = config.business_key
-        df_scd2 = process_scd2(spark, business_key)
-    except Exception as e:
-        print("Error during SCD Type 2 processing:", e)
-        raise e
-    return df_scd2
+    
 def process_scd2(spark):
      try:
         config = get_config()   

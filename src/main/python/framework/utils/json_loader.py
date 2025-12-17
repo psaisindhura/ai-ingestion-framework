@@ -91,3 +91,15 @@ class JsonLoader:
     @property
     def scd2_tracked_columns(self):
         return self.config_data.get("scd2_settings", {}).get("tracked_columns", [])
+    @property
+    def kafka_bootstrap_servers(self):
+        return self.config_data.get("kafka", {}).get("bootstrap_servers")
+    @property
+    def kafka_topic_name(self):
+        return self.config_data.get("kafka", {}).get("topic_name")
+    @property
+    def kafka_checkpoint_location(self):
+        return self.config_data.get("kafka", {}).get("checkpoint_location")
+    @property
+    def avro_schema_path(self):
+        return self.config_data.get("avro", {}).get("schema_path")

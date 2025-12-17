@@ -30,5 +30,14 @@
         "mode": "overwrite",
         "partition_columns": ["year", "month","day"]        
 
+    },
+    "kafka":{
+        "bootstrap_servers": "localhost:9092",
+        "topic_name": "customer_topic",
+        "checkpoint_location": "/opt/spark_programs/data/checkpoints/customer_kafka_checkpoint"
+    },
+    "avro":{
+        "schema_path": "/opt/spark_programs/schemas/customer.avsc"
     }
+
 }
