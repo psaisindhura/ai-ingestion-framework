@@ -10,6 +10,12 @@ from framework.readers.parquet_read import read_parquet
 
 spark = SparkSession.builder \
     .appName("CSVReader") \
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")\
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+    .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")\
+    .config("spark.sql.catalog.hadoop", "org.apache.iceberg.spark.SparkCatalog")\
+    .config("spark.sql.catalog.hadoop.type", "hadoop")\
+    .config("spark.sql.catalog.hadoop.warehouse", "s3://my-bucket/warehouse")\
     .getOrCreate()
 
 def get_config():

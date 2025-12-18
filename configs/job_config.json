@@ -13,10 +13,15 @@
         "mode": "PERMISSIVE",
         "source_from": "local",
         "source_format": "file",
+        /* identify the business key columns  */
         "business_key": ["customer_id" ],
+
         "scd2_source_path": "/opt/spark_programs/data/source/customer_parquet",
         "scd2_target_path": "/opt/spark_programs/data/target/customer_parquet",
-        "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ]
+        "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ],
+        /* snapshot_id is for tracking versions of the data ingested using iceberg */
+        
+        "iceburg_snapshot_id": "snapshot_001"
     },
     "transformations":{
         "filter_column": "status",

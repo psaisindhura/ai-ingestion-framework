@@ -109,3 +109,6 @@ class JsonLoader:
     @property
     def kafka_consumer_group_id(self):
         return self.config_data.get("kafka", {}).get("consumer_group_id")
+    @property
+    def iceburg_snapshot_id(self):
+        return self.config_data.get("iceberg_settings", {}).get("snapshot_id")
