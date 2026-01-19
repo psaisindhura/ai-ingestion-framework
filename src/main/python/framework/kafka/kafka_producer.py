@@ -2,10 +2,10 @@ from framework.utils.json_loader import JsonLoader
 from framework.kafka.kafka_writer import kafka_writer
 from framework.kafka.avro_serializer import AvroHandler
 from pyspark.sql.functions import col
-from configs.global_config  import json_path
 
-config_json_path = json_path
-config = JsonLoader(config_json_path)
+
+config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
+config = JsonLoader(config_path)
 
 def write_to_kafka(spark,df, topic: str = None):
     """

@@ -17,12 +17,14 @@
         "scd2_source_path": "/opt/spark_programs/data/source/customer_parquet",
         "scd2_target_path": "/opt/spark_programs/data/target/customer_parquet",
         "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ],
-        "iceburg_snapshot_id": "snapshot_001"
+        "iceburg_snapshot_id": "snapshot_001",
+        "effective_date": ["effective_date"]
     },
     "transformations":{
         "filter_column": "status",
         "add_date_partition": true,
         "is_flatten_json": true
+        
     },
     "output":{
         "destination_path": "/opt/spark_programs/data/output/",

@@ -112,3 +112,4 @@ class JsonLoader:
     @property
     def iceburg_snapshot_id(self):
         return self.config_data.get("iceberg_settings", {}).get("snapshot_id")
+    

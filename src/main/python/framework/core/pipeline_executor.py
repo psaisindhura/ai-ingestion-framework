@@ -2,8 +2,12 @@ from framework.readers.csv_reader import read_csv
 from framework.utils.json_loader import JsonLoader
 from pyspark.sql import SparkSession
 from framework.readers.json_reader import read_json_and_flatten
+from framework.readers.xml_reader import read_xml
+from framework.readers.delta_reader import read_delta
+from framework.readers.iceburg_reader import read_iceburg
+from framework.readers.avro_reader import read_avro
+from framework.readers.parquet_read import read_parquet
 from framework.writers.file_write import write_file
-from configs.global_config  import json_path 
 from framework.scd.scd2_processor import apply_scd2
 from framework.utils.hash_utils import generate_hash_column
 from framework.readers.parquet_read import read_parquet
@@ -20,7 +24,7 @@ spark = SparkSession.builder \
 
 def get_config():
     try:
-        config_path = json_path
+        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
         loader = JsonLoader(config_path)
         print(loader.source_path)
     except FileNotFoundError as e:
@@ -68,7 +72,22 @@ if __name__ == "__main__":
 
         # Read JSON
         elif file_type == "json":
-            df = read_json_and_flatten(spark)        
+            df = read_json_and_flatten(spark)    
+        elif file_type == "parquet":
+            df = read_parquet(spark, config.source_path)
+        elif file_type == "scd2":
+            process_scd2(spark)
+            df = None
+        elif file_type == "xml":            
+            df = read_xml(spark)
+        elif file_type == "delta":
+            df = read_delta(spark, config.source_path)
+        elif file_type == "iceburg":
+            df = read_iceburg(spark, config.source_path)
+        elif file_type == "avro":
+            df = read_avro(spark, config.source_path)
+
+           
     
         # Invalid type
         else:

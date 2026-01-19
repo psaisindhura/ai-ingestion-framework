@@ -1,4 +1,4 @@
-from configs.global_config  import json_path
+
 from framework.utils.json_loader import JsonLoader
 from framework.kafka.kafka_reader import kafka_reader
 from framework.kafka.avro_serializer import AvroHandler
@@ -9,8 +9,8 @@ def read_from_kafka(spark):
     read from kafka topic
     """
     try:
-        config_json_path = json_path
-        config = JsonLoader(config_json_path)
+        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
+        config = JsonLoader(config_path)
 
         kafka_df = kafka_reader(
             config.kafka_bootstrap_servers,

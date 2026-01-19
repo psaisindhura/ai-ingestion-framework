@@ -1,9 +1,8 @@
 from framework.utils.json_loader import JsonLoader
-from configs.global_config  import json_path 
 
 def get_config():
     try:
-        config_path = json_path
+        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
         loader = JsonLoader(config_path)
         print(loader.source_path)
     

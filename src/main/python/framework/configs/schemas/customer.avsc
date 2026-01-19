@@ -1,0 +1,28 @@
+{
+  "type": "record",
+  "name": "Customer",
+  "namespace": "com.company.hr",
+  "doc": "Customer master data events",
+  "fields": [
+    {
+      "name": "cust_id",
+      "type": "int",
+      "doc": "Unique customer identifier"
+    },
+    {
+      "name": "customer_name",
+      "type": "string",
+      "doc": "customer full name"
+    },
+    {
+      "name": "company",
+      "type": "string",
+      "doc": "company"
+    },
+    {
+      "name": "phone",
+      "type": "string",
+      "doc": "Customer phone number"
+    }
+  ]
+}
