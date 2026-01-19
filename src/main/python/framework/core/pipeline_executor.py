@@ -11,6 +11,7 @@ from framework.writers.file_write import write_file
 from framework.scd.scd2_processor import apply_scd2
 from framework.utils.hash_utils import generate_hash_column
 from framework.readers.parquet_read import read_parquet
+import sys
 
 spark = SparkSession.builder \
     .appName("CSVReader") \
@@ -22,9 +23,8 @@ spark = SparkSession.builder \
     .config("spark.sql.catalog.hadoop.warehouse", "s3://my-bucket/warehouse")\
     .getOrCreate()
 
-def get_config():
+def get_config(config_path: str = None):
     try:
-        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
         loader = JsonLoader(config_path)
         print(loader.source_path)
     except FileNotFoundError as e:
@@ -54,9 +54,12 @@ def process_scd2(spark):
 
 if __name__ == "__main__":
     
+    args = sys.argv
+    config_path = args[1] 
+    #if len(args) > 1 else throw ValueError("Config path argument is required.")
     try:
 
-        config = get_config()
+        config = get_config(config_path)
 
         # Debug print (helps you see what file type is coming)
         print("Loaded config:", config)
@@ -72,7 +75,7 @@ if __name__ == "__main__":
 
         # Read JSON
         elif file_type == "json":
-            df = read_json_and_flatten(spark)    
+            df = read_json_and_flatten(spark,config)    
         elif file_type == "parquet":
             df = read_parquet(spark, config.source_path)
         elif file_type == "scd2":

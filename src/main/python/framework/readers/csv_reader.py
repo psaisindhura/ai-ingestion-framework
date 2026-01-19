@@ -16,7 +16,6 @@ def read_csv(spark,pathh: str = None):
         path = config.source_path
 
         df = spark.read\
-          .format(path)\
             .option("header", header)\
             .option("inferSchema", infer_schema)\
             .option("delimiter", config.input_delimitter)\
@@ -24,10 +23,10 @@ def read_csv(spark,pathh: str = None):
             .option("quote", config.input_qoute)\
             .option("escape", config.input_escape)\
             .option("sep", config.input_delimitter)\
-            .oprtion("mode",config.input_mode)\
+            .option("mode",config.input_mode)\
             .option("ignoreLeadingWhiteSpace", config.input_ignoreLeadingWhiteSpace)\
             .option("ignoreTrailingWhiteSpace", config.input_ignoreTrailingWhiteSpace)\
-            .load("/path/file.csv")
+            .csv(path)
     except AnalysisException as e:
         print("Analysis Exception:", e)
         raise e

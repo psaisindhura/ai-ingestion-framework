@@ -1,18 +1,9 @@
+from framework.readers.xml_reader import get_config
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col,explode_outer
 from pyspark.sql.types import StructType,ArrayType
 from framework.utils.json_loader import JsonLoader
 from pyspark.sql.utils import AnalysisException
-
-def get_config():
-    try:
-        config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
-        loader = JsonLoader(config_path)
-        print(loader.source_path)
-    except FileNotFoundError as e:
-        print("Configuration file not found:", e)
-        raise e
-    return loader
 
 
 def flatten_json(df: DataFrame,prefix:str = "") -> DataFrame:
@@ -59,20 +50,19 @@ def flatten_json(df: DataFrame,prefix:str = "") -> DataFrame:
         raise e
     return df
 
-def read_json_and_flatten(spark, path: str = None) -> DataFrame:
+def read_json_and_flatten(spark, config, path: str = None) -> DataFrame:
     """
     Reads a JSON file and flattens it.
     """
     try:
-        config = get_config()
         df = spark.read\
             .option("multiLine", config.input_multiLine)\
             .option("mode", config.input_mode)\
             .json(config.source_path)
-        if get_config().is_flatten_json:
-            flat_df = flatten_json(df)
+        if config.is_flatten_json:
+            df = flatten_json(df)
     except AnalysisException as e:
         print("Analysis Exception during JSON read:", e)
         raise e
-    return flat_df
+    return df
 
