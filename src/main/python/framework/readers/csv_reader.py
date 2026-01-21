@@ -1,16 +1,7 @@
-from framework.utils.json_loader import JsonLoader
 from pyspark.sql.utils import AnalysisException
 
-def get_config():
-    config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
-    loader = JsonLoader(config_path)
-    print(loader.source_path)
-    return loader
-
-def read_csv(spark,pathh: str = None):
-
-    try:
-        config = get_config()
+def read_csv(spark,config):
+    try:        
         header = config.input_header
         infer_schema = config.input_infer_schema
         path = config.source_path

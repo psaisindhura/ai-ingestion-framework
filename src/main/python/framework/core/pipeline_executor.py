@@ -71,24 +71,24 @@ if __name__ == "__main__":
         df = None
         # Read CSV
         if file_type == "csv":
-            df = read_csv(spark)
+            df = read_csv(spark,config)
 
         # Read JSON
         elif file_type == "json":
             df = read_json_and_flatten(spark,config)    
         elif file_type == "parquet":
-            df = read_parquet(spark, config.source_path)
+            df = read_parquet(spark, config)
         elif file_type == "scd2":
             process_scd2(spark)
             df = None
         elif file_type == "xml":            
-            df = read_xml(spark)
+            df = read_xml(spark, config)
         elif file_type == "delta":
-            df = read_delta(spark, config.source_path)
+            df = read_delta(spark, config)
         elif file_type == "iceburg":
-            df = read_iceburg(spark, config.source_path)
+            df = read_iceburg(spark, config)
         elif file_type == "avro":
-            df = read_avro(spark, config.source_path)
+            df = read_avro(spark, config)
 
            
     
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         df.show(5)
 
         # Write output
-        df_write = write_file(df)
+        df_write = write_file(df, config)
         df_write.show(5)
     except Exception as e:
         print("Error during pipeline execution:", e)

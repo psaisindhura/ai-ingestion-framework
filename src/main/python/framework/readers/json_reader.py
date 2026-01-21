@@ -2,7 +2,6 @@ from framework.readers.xml_reader import get_config
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col,explode_outer
 from pyspark.sql.types import StructType,ArrayType
-from framework.utils.json_loader import JsonLoader
 from pyspark.sql.utils import AnalysisException
 
 

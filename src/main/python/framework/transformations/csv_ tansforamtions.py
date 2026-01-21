@@ -1,8 +1,13 @@
 from pyspark.sql.window import Window
 from pyspark.sql.functions import *
 
+# get retrvire custmer data
+def get_customer_data(customer_df):
+    return customer_df.select("customer_Id", "business_key", "effective_date", "amount", "city").where(col("amount") > 0)
 
-
+def  update_customerSZ_city(customer_df, city_update_df):
+   print("Updating customer city information")
+   
 def rank_latest_records(customer_df):
     window_spec = window.partitionBy("business_key").orderBy(col("effective_date").desc())
     lastest_customer_df = (customer_df
@@ -12,7 +17,7 @@ def rank_latest_records(customer_df):
     )
     return lastest_customer_df    
     
-
+ 
 # running total of Customer spend
 def running_total(customer_df):
     window_spec = (

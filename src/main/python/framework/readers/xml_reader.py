@@ -1,19 +1,9 @@
 
-from framework.utils.json_loader import JsonLoader
-
-
-def get_config():
-    config_path = "/opt/ai-ingestion-framework/ai-ingestion-framework/configs/job_config.json"
-    loader = JsonLoader(config_path)
-    print(loader.source_path)
-    return loader
-
-def read_xml(spark, path: str = None):
+def read_xml(spark, config):
     """
     Reads an XML file and returns a DataFrame.
     """
-    try:
-        config = get_config()
+    try:      
         df = spark.read\
             .format("com.databricks.spark.xml")\
             .option("rowTag", config.input_rowTag)\

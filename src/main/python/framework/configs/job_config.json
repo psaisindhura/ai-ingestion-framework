@@ -18,7 +18,8 @@
         "scd2_target_path": "/opt/spark_programs/data/target/customer_parquet",
         "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ],
         "iceburg_snapshot_id": "snapshot_001",
-        "effective_date": ["effective_date"]
+        "effective_date": ["effective_date"],
+        "iceburg_asOfTimestamp": "2023-10-01T00:00:00Z"
     },
     "transformations":{
         "filter_column": "status",
