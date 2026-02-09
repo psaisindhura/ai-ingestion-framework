@@ -1,0 +1,1 @@
+python /opt/ai-ingestion-framework/src/main/python/framework/utils/dag_generator.py

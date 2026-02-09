@@ -1,1 +1,1 @@
-python setup.py sdist --formats=zip
+python /opt/ai-ingestion-framework/setup.py sdist --formats=zip

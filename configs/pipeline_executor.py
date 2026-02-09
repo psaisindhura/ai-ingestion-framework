@@ -23,7 +23,6 @@ spark = SparkSession.builder \
     .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
     .getOrCreate()
 
-
 def get_config(config_path: str = None):
     try:
         loader = JsonLoader(config_path)
@@ -83,10 +82,16 @@ if __name__ == "__main__":
             process_scd2(spark)
             df = None
         elif file_type == "xml":            
-            df = read_xml(spark, config)       
+            df = read_xml(spark, config)
+        elif file_type == "delta":
+            df = read_delta(spark, config)
+        elif file_type == "iceburg":
+            df = read_iceburg(spark, config)
         elif file_type == "avro":
             df = read_avro(spark, config)
-            
+
+           
+    
         # Invalid type
         else:
             raise ValueError(f"Unsupported file type: {config.input_file_type}")

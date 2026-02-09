@@ -1,8 +1,6 @@
-from framework.readers.xml_reader import get_config
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col,explode_outer
 from pyspark.sql.types import StructType,ArrayType
-from pyspark.sql.utils import AnalysisException
 
 
 def flatten_json(df: DataFrame,prefix:str = "") -> DataFrame:
@@ -44,7 +42,7 @@ def flatten_json(df: DataFrame,prefix:str = "") -> DataFrame:
     
         if complex_fields_exists:
             return flatten_json(df)
-    except AnalysisException as e:
+    except Exception as e:
         print("Analysis Exception during flattening:", e)
         raise e
     return df
@@ -54,13 +52,15 @@ def read_json_and_flatten(spark, config, path: str = None) -> DataFrame:
     Reads a JSON file and flattens it.
     """
     try:
+        dataset_name = config.dataset_name 
+        path = config.source_path.format(dataset_name=dataset_name)
         df = spark.read\
             .option("multiLine", config.input_multiLine)\
             .option("mode", config.input_mode)\
-            .json(config.source_path)
+            .json(path)
         if config.is_flatten_json:
             df = flatten_json(df)
-    except AnalysisException as e:
+    except Exception as e:
         print("Analysis Exception during JSON read:", e)
         raise e
     return df

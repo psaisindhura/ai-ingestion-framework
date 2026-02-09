@@ -34,6 +34,9 @@ class JsonLoader:
     def input_header(self):
           return self.config_data.get("inputs", {}).get("header", True)
     @property
+    def dataset_name(self):
+          return self.config_data.get("inputs", {}).get("dataset_name", "default_dataset")
+    @property
     def input_infer_schema(self):
           return self.config_data.get("inputs", {}).get("infer_schema", True)
     @property 

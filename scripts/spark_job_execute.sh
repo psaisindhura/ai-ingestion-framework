@@ -13,8 +13,9 @@ if [[ -n "$config_path" && -n "$csv_path" ]]; then
     echo "Executing CSV ingestion job..."
 
     spark-submit \
-    --py-files /opt/ai-ingestion-framework/ai-ingestion-framework/dist/ai_ingestion_framework-2.0.0.zip \
-     /opt/ai-ingestion-framework/ai-ingestion-framework/src/main/python/framework/core/pipeline_executor.py  "$config_path"
+    --master local[*] \
+    --py-files /opt/ai-ingestion-framework/ai_ingestion_framework.zip \
+     /opt/ai-ingestion-framework/configs/pipeline_executor.py  "$config_path"
 
 else
     echo "Error: Two arguments required."

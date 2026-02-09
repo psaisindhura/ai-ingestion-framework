@@ -1,10 +1,10 @@
-from pyspark.sql.utils import AnalysisException
-
 def read_csv(spark,config):
     try:        
         header = config.input_header
         infer_schema = config.input_infer_schema
-        path = config.source_path
+        dataset_name = config.dataset_name
+        
+        path = config.source_path.format(dataset_name=dataset_name)
 
         df = spark.read\
             .option("header", header)\
@@ -18,8 +18,8 @@ def read_csv(spark,config):
             .option("ignoreLeadingWhiteSpace", config.input_ignoreLeadingWhiteSpace)\
             .option("ignoreTrailingWhiteSpace", config.input_ignoreTrailingWhiteSpace)\
             .csv(path)
-    except AnalysisException as e:
-        print("Analysis Exception:", e)
+    except Exception as e:
+        print("Exception while reading CSV:", e)
         raise e
         
     return df

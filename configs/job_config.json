@@ -1,6 +1,6 @@
 {
     "inputs":{
-        "source_path": "/opt/spark_programs/data/customers.csv",
+        "source_path": "s3a://landing/csv/customer",
         "file_type": "csv",
         "delimiter": ",",
         "header": true,
@@ -18,20 +18,22 @@
         "scd2_target_path": "/opt/spark_programs/data/target/customer_parquet",
         "scd2_tracked_columns": ["personal_info.name", "personal_info.contact.email", "employment_info.role", "employment_info.salary.base" ],
         "iceburg_snapshot_id": "snapshot_001",
-        "iceburg_asOfTimestamp": "2023-10-01T00:00:00Z"
+        "iceburg_asOfTimestamp": "2023-10-01T00:00:00Z",
+        "dataset_name": "customers"
     },
     "transformations":{
         "filter_column": "status",
         "add_date_partition": true,
-        "is_flatten_json": true
+        "is_flatten_json": true,
+        "sql": "SELECT customer_id, personal_info.name, personal_info.contact.email, employment_info.role, employment_info.salary.base FROM customers WHERE status = 'active'",
+        "sql_path"  : "/opt/spark_programs/sql/transform.sql"
     },
     "output":{
         "destination_path": "/opt/spark_programs/data/output/",
         "file_type": "parquet",
         "table_name": "customers",
         "mode": "overwrite",
-        "partition_columns": ["year", "month","day"]        
-
+        "partition_columns": ["year", "month","day"]
     },
     "kafka":{
         "bootstrap_servers": "localhost:9092",
