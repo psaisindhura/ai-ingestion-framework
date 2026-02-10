@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "job_id": "etl_job_001",
+    "job_name": "customer_data_pipeline",
+    "description": "Process customer data from multiple sources",
+    "version": "1.0",
+    "created_by": "data_engineering",
+    "created_date": "2024-01-15"
+  },
+  "inputs": [
+    {
+      "input_name": "customer_json_file",
+      "source_type": "file",
+      "source_format": "csv",
+      "source_config": {
+        "source_path": "s3a://landing/csv/customer",
+        "file_type": "csv",
+        "delimiter": ",",
+        "header": true,
+        "infer_schema": true,
+        "multiLine": true,
+        "quote": "\"",
+        "escape": "\\",
+        "ignoreLeadingWhiteSpace": true,
+        "ignoreTrailingWhiteSpace": true,
+        "mode": "PERMISSIVE"
+      }
+    }
+  ],
+  "transformations": [
+    {
+      "transformation_name": "filter_active_customers",
+      "transformation_type": "filter",
+      "config": {
+        "filter_condition": "1=1",
+        "input_name": "customer_json_file",
+        "output_alias": "active_customers"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "customer_parquet_output",
+      "destination_type": "file",
+      "destination_format": "parquet",
+      "destination_config": {
+        "destination_path": "s3a://raw/csv/customer",
+        "file_type": "parquet",
+        "mode": "overwrite"
+      },
+      "input_source": "active_customers"
+    }
+  ]
+}
